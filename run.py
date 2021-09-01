@@ -1,9 +1,12 @@
 import os
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
+if os.path.exists("env.py"):
+    import env
 
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY")
 
 @app.route("/")
 def index():
@@ -34,8 +37,10 @@ def contact():
     if request.method == "POST":
         # print(request.form)   gets all form details 
         # print(request.form.get("name")) gets name from form
-        print(request.form.get("name"))
-        print(request.form["email"])  #or you can just get the key, this is preffered method as it will avoid error in case no email was submitted
+        # print(request.form.get("name"))
+        # print(request.form["email"])  / Or you can just get the key, this is preffered method as it will avoid error in case no email was submitted
+        flash("Thanks {}, we have received your message!".format(
+            request.form.get("name")))
     return render_template("contact.html", page_title="Contact")
 
 
