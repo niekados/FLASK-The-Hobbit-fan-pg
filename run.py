@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 
 app = Flask(__name__)
@@ -29,8 +29,13 @@ def about_member(member_name):
     return render_template("member.html", member=member)
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        # print(request.form)   gets all form details 
+        # print(request.form.get("name")) gets name from form
+        print(request.form.get("name"))
+        print(request.form["email"])  #or you can just get the key, this is preffered method as it will avoid error in case no email was submitted
     return render_template("contact.html", page_title="Contact")
 
 
